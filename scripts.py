@@ -208,6 +208,10 @@ def comandos():
             tipo_de_dados = ' int '
         elif tipo_de_dados_contruindo == 'data':
             tipo_de_dados = ' data '
+        elif tipo_de_dados_contruindo == 'float':
+            tipo_de_dados = ' float '
+        elif tipo_de_dados_contruindo == 'text':
+            tipo_de_dados = ' text '
         else:
             print('deu ruim')
         #Nome tabela
