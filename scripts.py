@@ -43,8 +43,11 @@ def criarViewIndex():
         f.write("<td><?php echo $lista_"+nome+"['"+nome+"']['"+tabelas+"']; ?></td>")
     f.write("<td>")
     f.write("<?php echo $this->Form->postLink('Delete', array('action' => 'delete', $lista_"+nome+"['"+nome+"']['id']))?>")
-    f.write("<?php      echo $this->Html->link('Edit', array('action' => $lista_"+nome+"['"+nome+"']['id']));?>")
+    f.write("<?php echo $this->Html->link('Edit', array('action' => 'edit', $lista_"+nome+"['"+nome+"']['id']));?>")
+    f.write("<?php echo $this->Html->link('Add', array('action' => 'add'));?>")
+
     f.write("</td>")
+
 
 
     f.write("<?php endforeach ?>")
@@ -65,7 +68,7 @@ def criarViewAdd():
         tabelas_list = todas_tabelas[numero_tabelas]
         tabelas_dados = re.search('(?<!:)\w+', tabelas_list)
         tabelas = tabelas_dados.group()
-        f.write("echo $this->Form->create('"+tabelas+"');")
+        f.write("echo $this->Form->input('"+tabelas+"');")
     f.write("echo $this->Form->end('Salvar');")
     f.write("""\n ?> \n""" )
 
@@ -81,7 +84,7 @@ def criarViewEdit():
         tabelas_list = todas_tabelas[numero_tabelas]
         tabelas_dados = re.search('(?<!:)\w+', tabelas_list)
         tabelas = tabelas_dados.group()
-        f.write("echo $this->Form->create('"+tabelas+"');")
+        f.write("echo $this->Form->input('"+tabelas+"');")
     f.write("echo $this->Form->end('Salvar');")
     f.write("""\n ?> \n""" )
 
@@ -188,7 +191,7 @@ def comandos():
 
     print('create table ' + nome +'(')
     #id
-    print('id int primary key not null')
+    print('id int primary key not null auto_increment, ')
     for numero_tabelas in range(2, numero_tabelas):
         tabelas_list = todas_tabelas[numero_tabelas]
 
@@ -200,7 +203,7 @@ def comandos():
         global tipo_de_dados
 
         if tipo_de_dados_contruindo == 'string':
-            tipo_de_dados = ' varchar '
+            tipo_de_dados = ' varchar(255) '
         elif tipo_de_dados_contruindo == 'integer':
             tipo_de_dados = ' int '
         elif tipo_de_dados_contruindo == 'data':
