@@ -1,0 +1,22 @@
+"""
+  <h1>""" + nome + """</h1>
+  <table>
+  <tr>
+  """
+      for numero_tabelas in range(2, numero_tabelas):
+          "<th>"+ todas_tabelas[numero_tabelas] + "</th>"
+
+  """
+  </tr>
+  """
+  "<?php foreach ($"+nome+" as $lista"+nome+"): ?>"
+
+  "<tr>"
+      "<td><?php echo $lista"+nome+"['"+nome + "']['"+todas_tabelas[numero_tabelas]+"']"; ?></td>"
+"""
+  </tr>
+  <?php endforeach; ?>
+  <?php unset($post); ?>
+</table>
+
+  """
