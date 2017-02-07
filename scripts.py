@@ -1,7 +1,6 @@
 import sys
 import re
 import os
-
 def __init__():
     self.nome = nome
     self.tipo_de_dados = tipo_de_dados
@@ -172,11 +171,6 @@ def criarModel():
 def salvarDados():
     f = open('cake/app/Config/database.php')
     base = f.read()
-
-    regex = re.compile('login')
-    login = regex.search(base)
-    print(login.group)
-
 def comandos():
   # Get the name from the command line, using 'World' as a fallback.
     global numero_tabelas
@@ -230,6 +224,8 @@ def comandos():
 
     print(')')
     print("\n")
+
+
 
 def main():
     comandos()
