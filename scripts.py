@@ -1,30 +1,64 @@
-#! /usr/bin/env python3
-
+import sys
+import re
 import os
 
-def __init__(self, value, banco, tabelas):
-    self.value = value
-    self.banco = banco
+def __init__():
+    self.nome = nome
+    self.tipo_de_dados = tipo_de_dados
     self.tabelas = tabelas
+# Define a main() function that prints a little greeting.
 
 
-def create_banco(self, banco, tabelas):
-    print("create table " + banco)
+def criarModel():
+    if os.path.exists('cake/app/View/' + nome):
+        print("Ja exites")
+    else:
+        os.mkdir('cake/app/View/' + nome)
 
-    for tabelas in lista_tabelas:
-        saida_criado = "id int not null primary key"
-        value = len(lista_tabelas)
-        value -=value
-        saida_criado = lista_tabelas[value] + "string not null"
+def comandos():
+  # Get the name from the command line, using 'World' as a fallback.
+    numero_tabelas =len(sys.argv)
 
-    return saida_criado
+    global nome
+    nome = sys.argv[1]
+    todas_tabelas = sys.argv
+    #tabelas = sys.argv
+
+    print('create table ' + nome +'(')
+    for numero_tabelas in range(2, numero_tabelas):
+        tabelas_list = todas_tabelas[numero_tabelas]
+
+        # Tipo de dados
+        tipo = re.search('(?<=:)\w+', tabelas_list)
+
+        tipo_de_dados_contruindo = tipo.group(0)
+
+        if tipo_de_dados_contruindo == 'string':
+            tipo_de_dados = ' varchar '
+        elif tipo_de_dados_contruindo == 'integer':
+            tipo_de_dados = ' int '
+        elif tipo_de_dados_contruindo == 'data':
+            tipo_de_dados = ' data '
+        else:
+            print('deu ruim')
+        #Nome tabela
+        tabelas_dados = re.search('(?<!:)\w+', tabelas_list)
+        tabelas = tabelas_dados.group()
+
+
+        # saida de dados
+        #print(tabelas[numero_tabelas] + tipo_de_dados + " not null,")
+        print(tabelas + tipo_de_dados + " not null,")
+
+        numero_tabelas -= numero_tabelas
+
+    print("created_at date not null")
+    print(')')
 
 def main():
-    banco = str(input("Digite o nome do banco: "))
-    tabelas = str(input("Digite as tabelas: "))
-    function.create_banco()
+    comandos()
+    criarModel()
 
-
-
+# This is the standard boilerplate that calls the main() function.
 if __name__ == '__main__':
     main()
