@@ -55,7 +55,6 @@ def criarViewIndex():
 
     f.close()
 
-
 def criarViewAdd():
     f = open('cake/app/View/' +nome +'/add.ctp', "w+")
     f.write("<h2>"+ nome + "#Add</h2>")
@@ -88,8 +87,80 @@ def criarViewEdit():
 
     f.close()
 
+def criarController():
+    f = open('cake/app/Controller/' +nome +'Controller.php', "w+")
+    f.write("<?php \n")
+    f.write("class "+nome +"Controller extends AppController{ \n")
+
+    f.write("public $helpers = array('Html', 'Form', 'Flash');\n")
+    f.write("public $components = array('Flash');\n")
 
 
+    #função index
+    f.write("public function index() { \n")
+    f.write("$this->set('"+nome+"', $this->"+nome+"->find('all'));")
+    f.write("}\n")
+
+    #funcao add
+    f.write("public function add() { \n")
+    f.write("if ($this->request->is('post')) { \n")
+    f.write("$this->"+nome+"->create();\n")
+    f.write("if ($this->"+nome+"->save($this->request->data)) { \n")
+    f.write("$this->Flash->success(__('Seu "+nome+" foi salvo'));\n")
+    f.write("return $this->redirect(array('action' => 'index'));\n")
+    f.write("}\n")
+    f.write("$this->Flash->error(__('Unable to add your post.'));")
+    f.write("}\n")
+    f.write("}\n")
+
+    #funcao edit
+    f.write("public function edit($id = null) { \n")
+    f.write("if (!$id) {\n")
+    f.write("throw new NotFoundException(__('Invalid post'));\n")
+    f.write("}\n")
+    f.write("$"+nome+"= $this->"+nome+"->findById($id);\n")
+    f.write("if (!$"+nome+") {\n")
+    f.write("throw new NotFoundException(__('Invalid post'));\n")
+    f.write("}\n")
+    f.write("if ($this->request->is(array('post', 'put'))) {\n")
+    f.write("$this->"+nome+"->id = $id;\n")
+    f.write("if ($this->"+nome+"->save($this->request->data)) {\n")
+    f.write("$this->Flash->success(__('Seu "+nome+" foi atualizado.'));\n")
+    f.write("return $this->redirect(array('action' => 'index')); \n")
+    f.write("}\n")
+    f.write("$this->Flash->error(__('Unable to update your "+nome+".'));\n")
+    f.write("}\n")
+
+    f.write("if (!$this->request->data) {\n")
+    f.write("$this->request->data = $"+nome+";\n")
+    f.write("}\n")
+    f.write("}\n")
+
+    #funcao delete
+    f.write("public function delete() { \n")
+    f.write("}\n")
+    f.write("if ($this->request->is('get')) {\n")
+    f.write("throw new MethodNotAllowedException();\n")
+    f.write("}\n")
+    f.write("if ($this->"+nome+"->delete($id)) {\n")
+    f.write("$this->Flash->success('Foi Salvo')\n")
+    f.write("}\n")
+    f.write("else {")
+    f.write("$this->Flash->error('Não foi salvo');")
+    f.write("}\n")
+
+    f.write("return $this->redirect(array('action' => 'index'));\n")
+
+    f.write("}")
+    f.write("?>")
+    f.close()
+
+def criarModel():
+    f = open('cake/app/Model/' +nome +'.php', "w+")
+    f.write("class Post extends AppModel { \n")
+    f.write("public $name = "+nome+";\n")
+    f.write("}\n")
+    f.close()
 
 def comandos():
   # Get the name from the command line, using 'World' as a fallback.
@@ -146,6 +217,9 @@ def main():
     criarViewIndex()
     criarViewAdd()
     criarViewEdit()
+    criarController()
+    criarModel()
+
 # This is the standard boilerplate that calls the main() function.
 if __name__ == '__main__':
     main()
