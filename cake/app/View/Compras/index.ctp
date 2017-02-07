@@ -1,10 +1,9 @@
-<h2>Compras#Index</h2>
+<h2>Compra#Index</h2>
     <table>
     <tr>
       <th>nome</th>
-<th>test</th>
-<th>a</th>
-<th>Editar/Deletar<th></tr><?php foreach ($Compras as $lista_Compras): ?><tr><td><?php echo $lista_Compras['Compras']['nome']; ?></td><td><?php echo $lista_Compras['Compras']['test']; ?></td><td><?php echo $lista_Compras['Compras']['a']; ?></td><td><?php echo $this->Form->postLink('Delete', array('action' => 'delete', $lista_Compras['Compras']['id']))?><?php      echo $this->Html->link('Edit', array('action' => $lista_Compras['Compras']['id']));?></td><?php endforeach ?>
+<th>price</th>
+<th>Editar/Deletar<th></tr><?php foreach ($Compra as $lista_Compra): ?><tr><td><?php echo $lista_Compra['Compra']['nome']; ?></td><td><?php echo $lista_Compra['Compra']['price']; ?></td><td><?php echo $this->Form->postLink('Delete', array('action' => 'delete', $lista_Compra['Compra']['id']))?><?php      echo $this->Html->link('Edit', array('action' => $lista_Compra['Compra']['id']));?></td><?php endforeach ?>
     </tr>
     </table>
     

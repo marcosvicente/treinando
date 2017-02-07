@@ -11,14 +11,14 @@ def __init__():
 
 def criarView():
     # criar Pasta
-    if os.path.exists('cake/app/View/' + nome):
-        print("Ja exites")
+    if os.path.exists('cake/app/View/' + nome + 's'):
+        print("Atualizada")
     else:
-        os.mkdir('cake/app/View/' + nome )
+        os.mkdir('cake/app/View/' + nome + 's')
 
 
 def criarViewIndex():
-    f = open('cake/app/View/' +nome +'/index.ctp', "w+")
+    f = open('cake/app/View/' +nome +'s/index.ctp', "w+")
     f.write("<h2>"+ nome + "#Index</h2>")
     f.write("""
     <table>
@@ -56,7 +56,7 @@ def criarViewIndex():
     f.close()
 
 def criarViewAdd():
-    f = open('cake/app/View/' +nome +'/add.ctp', "w+")
+    f = open('cake/app/View/' +nome +'s/add.ctp', "w+")
     f.write("<h2>"+ nome + "#Add</h2>")
     f.write("""\n<?php \n""" )
     f.write("echo $this->Form->create('"+nome+"');")
@@ -72,7 +72,7 @@ def criarViewAdd():
     f.close()
 
 def criarViewEdit():
-    f = open('cake/app/View/' +nome +'/edit.ctp', "w+")
+    f = open('cake/app/View/' +nome +'s/edit.ctp', "w+")
     f.write("<h2>"+ nome + "#Edit</h2>")
     f.write("""\n<?php \n""" )
     f.write("echo $this->Form->create('"+nome+"');")
@@ -88,9 +88,9 @@ def criarViewEdit():
     f.close()
 
 def criarController():
-    f = open('cake/app/Controller/' +nome +'Controller.php', "w+")
+    f = open('cake/app/Controller/' +nome +'sController.php', "w+")
     f.write("<?php \n")
-    f.write("class "+nome +"Controller extends AppController{ \n")
+    f.write("class "+nome +"sController extends AppController{ \n")
 
     f.write("public $helpers = array('Html', 'Form', 'Flash');\n")
     f.write("public $components = array('Flash');\n")
@@ -137,19 +137,20 @@ def criarController():
     f.write("}\n")
 
     #funcao delete
-    f.write("public function delete() { \n")
-    f.write("}\n")
+    f.write("public function delete($id=null) { \n")
+
     f.write("if ($this->request->is('get')) {\n")
     f.write("throw new MethodNotAllowedException();\n")
     f.write("}\n")
     f.write("if ($this->"+nome+"->delete($id)) {\n")
-    f.write("$this->Flash->success('Foi Salvo')\n")
+    f.write("$this->Flash->success('Foi Salvo');\n")
     f.write("}\n")
     f.write("else {")
     f.write("$this->Flash->error('Não foi salvo');")
     f.write("}\n")
 
     f.write("return $this->redirect(array('action' => 'index'));\n")
+    f.write("}\n")
 
     f.write("}")
     f.write("?>")
@@ -157,10 +158,21 @@ def criarController():
 
 def criarModel():
     f = open('cake/app/Model/' +nome +'.php', "w+")
-    f.write("class Post extends AppModel { \n")
-    f.write("public $name = "+nome+";\n")
+    f.write("<?php \n")
+    f.write("class "+nome+" extends AppModel { \n")
+    f.write("var $useTable = '"+nome+"';\n")
     f.write("}\n")
+    f.write("?>\n")
+
     f.close()
+
+def salvarDados():
+    f = open('cake/app/Config/database.php')
+    base = f.read()
+
+    regex = re.compile('login')
+    login = regex.search(base)
+    print(login.group)
 
 def comandos():
   # Get the name from the command line, using 'World' as a fallback.
@@ -219,7 +231,7 @@ def main():
     criarViewEdit()
     criarController()
     criarModel()
-
+    salvarDados()
 # This is the standard boilerplate that calls the main() function.
 if __name__ == '__main__':
     main()
