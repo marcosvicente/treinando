@@ -12,10 +12,10 @@ def __init__():
 def criarView():
     # criar Pasta
     if os.path.exists('cake/app/View/' + nome + 's'):
-        print("Atualizada")
+        print("Atualizada!")
     else:
         os.mkdir('cake/app/View/' + nome + 's')
-
+        print("Criado!")
 
 def criarViewIndex():
     f = open('cake/app/View/' +nome +'s/index.ctp', "w+")
@@ -44,7 +44,6 @@ def criarViewIndex():
     f.write("<td>")
     f.write("<?php echo $this->Form->postLink('Delete', array('action' => 'delete', $lista_"+nome+"['"+nome+"']['id']))?>")
     f.write("<?php echo $this->Html->link('Edit', array('action' => 'edit', $lista_"+nome+"['"+nome+"']['id']));?>")
-    f.write("<?php echo $this->Html->link('Add', array('action' => 'add'));?>")
 
     f.write("</td>")
 
@@ -55,6 +54,7 @@ def criarViewIndex():
     </tr>
     </table>
     """)
+    f.write("<?php echo $this->Html->link('Add', array('action' => 'add'));?>")
 
     f.close()
 
@@ -189,9 +189,9 @@ def comandos():
     todas_tabelas = sys.argv
     #tabelas = sys.argv
 
+    print("Criar table:\n")
+
     print('create table ' + nome +'(')
-    #id
-    print('id int primary key not null auto_increment, ')
     for numero_tabelas in range(2, numero_tabelas):
         tabelas_list = todas_tabelas[numero_tabelas]
 
@@ -222,9 +222,10 @@ def comandos():
         print(tabelas + tipo_de_dados + " not null,")
 
         numero_tabelas -= numero_tabelas
+    print('id int primary key not null auto_increment')
 
-    print("created_at date not null")
     print(')')
+    print("\n")
 
 def main():
     comandos()
