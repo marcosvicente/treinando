@@ -15,9 +15,11 @@ def criarView():
         print("Ja exites")
     else:
         os.mkdir('cake/app/View/' + nome )
+
+
 def criarViewIndex():
-    f = open('cake/app/View/' +nome +'/index.php', "w+")
-    f.write("<h2>"+ nome + "</h2>")
+    f = open('cake/app/View/' +nome +'/index.ctp', "w+")
+    f.write("<h2>"+ nome + "#Index</h2>")
     f.write("""
     <table>
     <tr>
@@ -37,11 +39,28 @@ def criarViewIndex():
         tabelas_list = todas_tabelas[numero_tabelas]
         tabelas_dados = re.search('(?<!:)\w+', tabelas_list)
         tabelas = tabelas_dados.group()
-        f.write("<td><?php echo $lista_"+tabelas+"["+nome+"]["+tabelas+"]; ?></td>")
+        f.write("<td><?php echo $lista_"+nome+"["+nome+"]["+tabelas+"]; ?></td>")
     f.write("""
     </tr>
     </table>
     """)
+
+    f.close()
+
+
+def criarViewAdd():
+    f = open('cake/app/View/' +nome +'/add.ctp', "w+")
+    f.write("<h2>"+ nome + "#Add</h2>")
+    f.write("""\n<?php \n""" )
+    f.write("echo $this->Form->create('"+nome+"');")
+    numero_tabelas = len(sys.argv)
+    for numero_tabelas in range(2, numero_tabelas):
+        tabelas_list = todas_tabelas[numero_tabelas]
+        tabelas_dados = re.search('(?<!:)\w+', tabelas_list)
+        tabelas = tabelas_dados.group()
+        f.write("echo $this->Form->create('"+tabelas+"');")
+    f.write("echo $this->Form->end('Salvar');")
+    f.write("""\n ?> \n""" )
 
     f.close()
 
@@ -98,6 +117,7 @@ def main():
     comandos()
     criarView()
     criarViewIndex()
+    criarViewAdd()
 # This is the standard boilerplate that calls the main() function.
 if __name__ == '__main__':
     main()

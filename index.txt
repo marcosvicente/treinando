@@ -1,22 +1,7 @@
-"""
-  <h1>""" + nome + """</h1>
-  <table>
-  <tr>
-  """
-      for numero_tabelas in range(2, numero_tabelas):
-          "<th>"+ todas_tabelas[numero_tabelas] + "</th>"
-
-  """
-  </tr>
-  """
-  "<?php foreach ($"+nome+" as $lista"+nome+"): ?>"
-
-  "<tr>"
-      "<td><?php echo $lista"+nome+"['"+nome + "']['"+todas_tabelas[numero_tabelas]+"']"; ?></td>"
-"""
-  </tr>
-  <?php endforeach; ?>
-  <?php unset($post); ?>
-</table>
-
-  """
+<h1>Add Post</h1>
+<?php
+echo $this->Form->create('Post');
+echo $this->Form->input('title');
+echo $this->Form->input('body', array('rows' => '3'));
+echo $this->Form->end('Save Post');
+?>
