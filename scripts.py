@@ -31,6 +31,7 @@ def criarViewIndex():
         tabelas = tabelas_dados.group()
         f.write("<th>"+ tabelas + "</th>\n")
 
+    f.write("<th>Editar/Deletar<th>")
     f.write("</tr>")
     f.write("<?php foreach ($"+nome+" as $lista_"+nome+"): ?>")
     f.write("<tr>")
@@ -39,7 +40,14 @@ def criarViewIndex():
         tabelas_list = todas_tabelas[numero_tabelas]
         tabelas_dados = re.search('(?<!:)\w+', tabelas_list)
         tabelas = tabelas_dados.group()
-        f.write("<td><?php echo $lista_"+nome+"["+nome+"]["+tabelas+"]; ?></td>")
+        f.write("<td><?php echo $lista_"+nome+"['"+nome+"']['"+tabelas+"']; ?></td>")
+    f.write("<td>")
+    f.write("<?php echo $this->Form->postLink('Delete', array('action' => 'delete', $lista_"+nome+"['"+nome+"']['id']))?>")
+    f.write("<?php      echo $this->Html->link('Edit', array('action' => $lista_"+nome+"['"+nome+"']['id']));?>")
+    f.write("</td>")
+
+
+    f.write("<?php endforeach ?>")
     f.write("""
     </tr>
     </table>
@@ -63,6 +71,25 @@ def criarViewAdd():
     f.write("""\n ?> \n""" )
 
     f.close()
+
+def criarViewEdit():
+    f = open('cake/app/View/' +nome +'/edit.ctp', "w+")
+    f.write("<h2>"+ nome + "#Edit</h2>")
+    f.write("""\n<?php \n""" )
+    f.write("echo $this->Form->create('"+nome+"');")
+    numero_tabelas = len(sys.argv)
+    for numero_tabelas in range(2, numero_tabelas):
+        tabelas_list = todas_tabelas[numero_tabelas]
+        tabelas_dados = re.search('(?<!:)\w+', tabelas_list)
+        tabelas = tabelas_dados.group()
+        f.write("echo $this->Form->create('"+tabelas+"');")
+    f.write("echo $this->Form->end('Salvar');")
+    f.write("""\n ?> \n""" )
+
+    f.close()
+
+
+
 
 def comandos():
   # Get the name from the command line, using 'World' as a fallback.
@@ -118,6 +145,7 @@ def main():
     criarView()
     criarViewIndex()
     criarViewAdd()
+    criarViewEdit()
 # This is the standard boilerplate that calls the main() function.
 if __name__ == '__main__':
     main()
